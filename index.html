@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Artisan Lassi Orders</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Fraunces:wght@500;700&family=Manrope:wght@400;600;700&display=swap");
+
+      :root {
+        --cream: #fff6ea;
+        --mango: #f7a31b;
+        --orange: #ef6a2f;
+        --brown: #4f2d21;
+        --green: #4f7c37;
+        --ink: #1f1713;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Manrope", sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 15% 20%, #ffeac7 0%, transparent 33%),
+          radial-gradient(circle at 85% 0%, #ffd9bf 0%, transparent 28%),
+          linear-gradient(140deg, #fffaf1, #fdf1dd 45%, #fbe9d6 100%);
+        min-height: 100vh;
+      }
+
+      .page {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 32px 20px 64px;
+      }
+
+      .title {
+        margin: 0;
+        font-family: "Fraunces", serif;
+        font-size: clamp(2rem, 4vw, 3rem);
+        color: var(--brown);
+        line-height: 1.1;
+      }
+
+      .subtitle {
+        margin: 10px 0 0;
+        max-width: 650px;
+        font-size: 1rem;
+      }
+
+      .layout {
+        margin-top: 24px;
+        display: grid;
+        grid-template-columns: minmax(280px, 0.95fr) minmax(320px, 1.05fr);
+        gap: 24px;
+        align-items: start;
+      }
+
+      .product-pane,
+      .order-pane {
+        border: 1px solid #ecd9c3;
+        background: rgba(255, 252, 245, 0.88);
+        backdrop-filter: blur(4px);
+        border-radius: 8px;
+        padding: 20px;
+      }
+
+      .product-image {
+        width: 100%;
+        display: block;
+        border-radius: 6px;
+        border: 1px solid #edd9c4;
+      }
+
+      .facts {
+        margin: 14px 0 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        gap: 10px;
+        font-size: 0.95rem;
+      }
+
+      .facts strong {
+        color: var(--brown);
+      }
+
+      .order-pane h2 {
+        margin: 0 0 16px;
+        font-family: "Fraunces", serif;
+        color: var(--brown);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-bottom: 12px;
+      }
+
+      .field label {
+        font-size: 0.95rem;
+        font-weight: 600;
+      }
+
+      .field input,
+      .field select {
+        width: 100%;
+        border: 1px solid #dac5af;
+        border-radius: 6px;
+        background: white;
+        padding: 11px 12px;
+        font: inherit;
+      }
+
+      .delivery-toggle {
+        display: inline-flex;
+        border: 1px solid #d7c0a7;
+        border-radius: 6px;
+        overflow: hidden;
+      }
+
+      .delivery-toggle button {
+        border: 0;
+        font: inherit;
+        padding: 10px 14px;
+        cursor: pointer;
+        background: #fff;
+        color: #5a4638;
+        min-width: 140px;
+      }
+
+      .delivery-toggle button.active {
+        background: linear-gradient(120deg, var(--orange), #dd4f22);
+        color: white;
+      }
+
+      #homeFields {
+        display: none;
+      }
+
+      .summary {
+        margin-top: 10px;
+        border-top: 1px dashed #d8c6b2;
+        padding-top: 12px;
+        display: flex;
+        justify-content: space-between;
+        font-weight: 700;
+      }
+
+      .cta {
+        margin-top: 16px;
+        width: 100%;
+        border: 0;
+        border-radius: 6px;
+        padding: 14px;
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+        color: white;
+        background: linear-gradient(120deg, var(--green), #3e6729);
+      }
+
+      .note,
+      .error {
+        margin-top: 10px;
+        font-size: 0.9rem;
+      }
+
+      .error {
+        color: #ab1f1f;
+      }
+
+      @media (max-width: 900px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <h1 class="title">Artisan Lassi Store</h1>
+      <p class="subtitle">
+        Handmade, fresh, and all natural. Order your favorite lassi flavor and
+        pay online with Stripe checkout.
+      </p>
+
+      <section class="layout">
+        <article class="product-pane">
+          <img
+            src="/artisan-lassi.jpeg"
+            alt="Artisan Lassi mango package"
+            class="product-image"
+          />
+          <ul class="facts">
+            <li><strong>Brand:</strong> Artisan Lassi</li>
+            <li><strong>Signature Flavor:</strong> Mango</li>
+            <li><strong>Bottle Size:</strong> 350 ml</li>
+            <li><strong>Allergen:</strong> Milk</li>
+            <li><strong>Made In:</strong> Amsterdam, Netherlands</li>
+          </ul>
+        </article>
+
+        <article class="order-pane">
+          <h2>Place Your Order</h2>
+          <form id="orderForm">
+            <div class="field">
+              <label for="flavor">Lassi Flavor</label>
+              <select id="flavor" name="flavor" required>
+                <option value="mango">Mango Lassi</option>
+                <option value="orange">Orange Lassi</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="quantity">Quantity</label>
+              <input id="quantity" type="number" min="1" max="20" value="1" />
+            </div>
+
+            <div class="field">
+              <label>Delivery Mode</label>
+              <div class="delivery-toggle" role="group" aria-label="Delivery mode">
+                <button type="button" class="active" data-mode="home_delivery">
+                  Home Delivery
+                </button>
+                <button type="button" data-mode="pickup">Come & Pickup</button>
+              </div>
+              <input type="hidden" id="deliveryMode" value="home_delivery" />
+            </div>
+
+            <div id="homeFields">
+              <div class="grid">
+                <div class="field">
+                  <label for="customerName">Name</label>
+                  <input id="customerName" type="text" />
+                </div>
+                <div class="field">
+                  <label for="postcode">Post Code</label>
+                  <input id="postcode" type="text" />
+                </div>
+              </div>
+              <div class="field">
+                <label for="address">Address</label>
+                <input id="address" type="text" />
+              </div>
+              <div class="field">
+                <label for="city">City</label>
+                <input id="city" type="text" />
+              </div>
+            </div>
+
+            <div class="summary">
+              <span>Total</span>
+              <span id="totalPrice">EUR 6.00</span>
+            </div>
+            <button type="submit" class="cta" id="payButton">
+              Continue To Payment
+            </button>
+            <p class="note">
+              Card payment is securely processed by Stripe Checkout.
+            </p>
+            <p class="error" id="errorText" aria-live="polite"></p>
+          </form>
+        </article>
+      </section>
+    </main>
+
+    <script>
+      const prices = { mango: 450, orange: 430 };
+      const deliveryCharge = { home_delivery: 150, pickup: 0 };
+
+      const flavorInput = document.getElementById("flavor");
+      const quantityInput = document.getElementById("quantity");
+      const totalPrice = document.getElementById("totalPrice");
+      const deliveryModeInput = document.getElementById("deliveryMode");
+      const homeFields = document.getElementById("homeFields");
+      const errorText = document.getElementById("errorText");
+      const payButton = document.getElementById("payButton");
+      const toggleButtons = document.querySelectorAll(".delivery-toggle button");
+
+      const requiredHomeFieldIds = ["customerName", "address", "postcode", "city"];
+
+      function clampQuantity(value) {
+        const qty = Number.parseInt(value, 10);
+        if (Number.isNaN(qty)) return 1;
+        return Math.min(20, Math.max(1, qty));
+      }
+
+      function asEuro(cents) {
+        return new Intl.NumberFormat("en-NL", {
+          style: "currency",
+          currency: "EUR",
+        }).format(cents / 100);
+      }
+
+      function isHomeDelivery() {
+        return deliveryModeInput.value === "home_delivery";
+      }
+
+      function updateHomeFieldsVisibility() {
+        const home = isHomeDelivery();
+        homeFields.style.display = home ? "block" : "none";
+        requiredHomeFieldIds.forEach((id) => {
+          document.getElementById(id).required = home;
+        });
+      }
+
+      function updateTotal() {
+        const flavor = flavorInput.value;
+        const qty = clampQuantity(quantityInput.value);
+        quantityInput.value = qty;
+        const total = prices[flavor] * qty + deliveryCharge[deliveryModeInput.value];
+        totalPrice.textContent = asEuro(total);
+      }
+
+      toggleButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const mode = button.dataset.mode;
+          deliveryModeInput.value = mode;
+          toggleButtons.forEach((btn) =>
+            btn.classList.toggle("active", btn === button),
+          );
+          updateHomeFieldsVisibility();
+          updateTotal();
+        });
+      });
+
+      flavorInput.addEventListener("change", updateTotal);
+      quantityInput.addEventListener("input", updateTotal);
+
+      document.getElementById("orderForm").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        errorText.textContent = "";
+        payButton.disabled = true;
+        payButton.textContent = "Preparing secure checkout...";
+
+        const payload = {
+          flavor: flavorInput.value,
+          quantity: clampQuantity(quantityInput.value),
+          deliveryMode: deliveryModeInput.value,
+          customerName: document.getElementById("customerName").value.trim(),
+          address: document.getElementById("address").value.trim(),
+          postcode: document.getElementById("postcode").value.trim(),
+          city: document.getElementById("city").value.trim(),
+        };
+
+        try {
+          const response = await fetch("/api/create-checkout", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.error || "Checkout could not be created.");
+          }
+          window.location.href = data.url;
+        } catch (error) {
+          errorText.textContent = error.message;
+          payButton.disabled = false;
+          payButton.textContent = "Continue To Payment";
+        }
+      });
+
+      updateHomeFieldsVisibility();
+      updateTotal();
+    </script>
+  </body>
+</html>

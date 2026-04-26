@@ -1,0 +1,9 @@
+{
+  "name": "artisan-lassi-store",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Simple Vercel app for Artisan Lassi online ordering.",
+  "scripts": {
+    "dev": "vercel dev"
+  }
+}
